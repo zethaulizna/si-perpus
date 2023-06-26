@@ -19,6 +19,7 @@ import {
 export default function Home () {
 
   const [buku, setBuku] = useState ([]);
+  const [search, setSearch] = useState ([]);
   const bukuCollectionRef = collection(db, "buku");
 
   const getBukuList = async () => {
@@ -65,6 +66,18 @@ export default function Home () {
         <button onClick={addBookHandler} className="bg-sky-500 text-white px-6 py-2 rounded-full hover:bg-sky-700">
           Tambah Buku
         </button>
+
+        {/* search */}
+        <div className="flex items-center justify-end">
+          <input
+          type="text"
+          className="w-42 mt-2 block rounded-xl border px-3 py-2"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="ketik keyword"
+          >
+          </input>
+        </div>
+        
         {/* tabel */}
         <div className="mt-6">
           <table className="bg-sky-50 py-10 rounded-xl table-auto">
@@ -78,18 +91,26 @@ export default function Home () {
               </tr>
             </thead>
             <tbody>
-                  {buku.map((data) => (
+              {buku.length > 1 ? (
+              buku
+                .filter((data) => (
+                data.nama_buku ?.toLowerCase().includes(search)
+                ))
+                .map((data) => (
                   <tr className="hover:bg-sky-200" key={data.id}>
-                    <td className="px-6 py-3">{data.nama_buku}</td>
-                    <td className="px-6 py-3">{data.pengarang}</td>
-                    <td className="px-6 py-3">{data.deskripsi_buku}</td>
-                    <td className="px-6 py-3">{data.tahun_terbit}</td>
-                    <td className="flex px-6 py-3">
+                    <td scope="col" className="px-6 py-3">
+                      {data.nama_buku}
+                    </td>
+                    <td scope="col" className="px-6 py-3">{data.nama_buku}</td>
+                    <td scope="col" className="px-6 py-3">{data.pengarang}</td>
+                    <td scope="col" className="px-6 py-3">{data.deskripsi_buku}</td>
+                    <td scope="col" className="px-6 py-3">{data.tahun_terbit}</td>
+                    <td scope="col" className="flex px-6 py-3">
                       <span
+                        className="hover: mr-2 h-8 w-8 cursor-pointer hover:text-sky-500"
                         onClick={() => {
                           updateBookHandler(data.id);
                         }}
-                        className="cursor-pointer h-8 w-8 mr-2 hover:text-sky-500"
                       >
                         <IkonUbah />
                       </span>
@@ -103,7 +124,14 @@ export default function Home () {
                       </span>
                     </td>
                   </tr>
-                ))}   
+                ))
+                ) : (
+                  <tr>
+                    <td className="py-5 text-center" colSpan={6}>
+                      Belum ada data buku!
+                    </td>
+                  </tr>
+                )}   
               
             </tbody>
           </table>

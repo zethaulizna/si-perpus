@@ -1,13 +1,15 @@
 import React from 'react'
 import Layout from '@/widget/layout'
 import { collection, addDoc } from "firebase/firestore";
+import { useState } from 'react';
 import { useRouter } from "next/router";
 import Judul from "@/components/Judul";
+import { db } from "@/config/firebase";
 
 const TambahBuku = () => {
     const [namaBuku, setNamaBuku] = useState("");
     const [pengarang, setPengarang] = useState("");
-    const [deskripsibuku, setDeskripsiBuku] = useState("");
+    const [deskripsiBuku, setDeskripsiBuku] = useState("");
     const [tahunTerbit, setTahunTerbit] = useState("");
 
     const router = useRouter();
@@ -52,15 +54,36 @@ const TambahBuku = () => {
             </div>
             <div className="mb-3">
                 <label className="text-md">Pengarang</label>
-                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" />
+                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" 
+                onChange={(event) => {
+                    setPengarang(event.target.value);
+
+                }}
+                value={pengarang}
+                required
+                />
             </div>
             <div className="mb-3">
                 <label className="text-md">Deskripsi Buku</label>
-                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" />
+                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" 
+                onChange={(event) => {
+                    setDeskripsiBuku(event.target.value);
+
+                }}
+                value={deskripsiBuku}
+                required
+                />
             </div>
             <div className="mb-3">
                 <label className="text-md">Tahun Terbit</label>
-                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" />
+                <input type="Text" className="mt-2 block w-11/12 rounded-xl border px-3 py-2" 
+                onChange={(event) => {
+                    setTahunTerbit(event.target.value);
+
+                }}
+                value={tahunTerbit}
+                required
+                />
             </div>
             <button className="bg-sky-500 hover:bg-sky-700 px-16 py-2 ml-20 text-white rounded-full mt-3">Simpan</button>
         </form>
