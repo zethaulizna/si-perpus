@@ -64,7 +64,7 @@ export default function Home () {
           <h3 className="text-2xl font-semibold">Data Buku Perpustakaan</h3>
         </div>
         <button onClick={addBookHandler} className="bg-sky-500 text-white px-6 py-2 rounded-full hover:bg-sky-700">
-          Tambah Buku
+          Tambah Buku Perpustakaan
         </button>
 
         {/* search */}
